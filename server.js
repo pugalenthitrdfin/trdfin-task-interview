@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import authRoute from "./routes/auth.js";
 import employeeRoute from "./routes/employee.js";
+import autoIncrement from "mongoose-auto-increment"
 
 const app = express();
 app.use(cors());
@@ -13,13 +14,17 @@ dotenv.config();
 const MONGO_URL = process.env.MONGO_URL;
 const PORT = process.env.PORT;
 
-const createConnection = () => {
-  mongoose.connect(MONGO_URL);
-  console.log(`mongoose is connnected`);
-};
+// var connection = mongoose.createConnection(MONGO_URL);
+ 
+// autoIncrement.initialize(connection);
+
+const mongooseConnection =  async () => {
+   await mongoose.connect(MONGO_URL) 
+   console.log("mongoose is connected")
+}
 
 app.listen(PORT, () => {
-  createConnection();
+  mongooseConnection()
   console.log(`server is listening on ${PORT}`);
 });
 
