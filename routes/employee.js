@@ -26,39 +26,13 @@ router.post("/", async (req, res, next) => {
     {
       let lastEmployeeId = +lastCreatedEmployee.employee_id.match(/(\d+)/)[0]
       let currentEmployeeId = ++lastEmployeeId
-      if(currentEmployeeId  <= 9 ){
-
-         let newEmployeeData = {...req.body,"employee_id":"EMP"+"00"+currentEmployeeId}
-         const {employee_id,address,...other} = newEmployeeData
-         const newEmployee = new Employee({...other,employee_id:employee_id});
-         const newEmployeeAddress = new EmployeeAddress({employee_id:employee_id,address:address})
-         const savedEmployee = await newEmployee.save();
-         const savedEmployeeAddress = await newEmployeeAddress.save();
-         res.status(200).json("employee has been created");
-
-      }
-      else if(currentEmployeeId > 9){
-
-        let newEmployeeData = {...req.body,"employee_id":"EMP"+"0"+currentEmployeeId}
-        const {employee_id,address,...other} = newEmployeeData
-        const newEmployee = new Employee({...other,employee_id:employee_id});
-        const newEmployeeAddress = new EmployeeAddress({employee_id:employee_id,address:address})
-        const savedEmployee = await newEmployee.save();
-        const savedEmployeeAddress = await newEmployeeAddress.save();
-        res.status(200).json("employee has been created");
-
-      }
-      else if(currentEmployeeId > 99){
-
-        let newEmployeeData = {...req.body,"employee_id":"EMP"+currentEmployeeId}
-        const {employee_id,address,...other} = newEmployeeData
-        const newEmployee = new Employee({...other,employee_id:employee_id});
-        const newEmployeeAddress = new EmployeeAddress({employee_id:employee_id,address:address})
-        const savedEmployee = await newEmployee.save();
-        const savedEmployeeAddress = await newEmployeeAddress.save();
-        res.status(200).json("employee has been created");
-
-      }
+      let newEmployeeData = {...req.body,employee_id:"EMP"+currentEmployeeId.toString().padStart(3,"0")}
+      const {employee_id,address,...other} = newEmployeeData
+      const newEmployee = new Employee({...other,employee_id:employee_id});
+      const newEmployeeAddress = new EmployeeAddress({employee_id:employee_id,address:address})
+      const savedEmployee = await newEmployee.save();
+      const savedEmployeeAddress = await newEmployeeAddress.save();
+      res.status(200).json("employee has been created");
       
     }
     
